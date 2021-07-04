@@ -8,7 +8,7 @@ let obj = (function () {
     }
 
     function getAPI(search, pageNumber) {
-        return `https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=6a2528b98ace6683f7c79797807d47b5&text=${search}&page=${pageNumber}&format=json&nojsoncallback=1`;
+        return `https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=${API key}&text=${search}&page=${pageNumber}&format=json&nojsoncallback=1`;
     }
 
     async function fetchData(url) {
