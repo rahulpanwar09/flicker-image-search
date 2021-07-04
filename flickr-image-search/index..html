@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Image Search</title>
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+</head>
+<body>
+    <div class="container">
+        <nav class="navbar navbar-light bg-light">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="#">IMAGE SEARCH</a>
+            </div>
+        </nav>
+        <nav class="navbar navbar-light bg-light">
+            <div class="container-fluid">
+                <form class="d-flex">
+                    <input class="form-control me-2" type="search" id="search-input" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-success" id="search-btn" type="submit">Search</button>
+                </form>
+            </div>
+        </nav>
+
+
+    </div>
+
+    <div id="render-content" class="row row-cols-1 row-cols-md-3 g-4">
+
+        <div class="modal" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">IMAGE</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div id="modal-body">
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" data-value="-1" class="btn btn-primary navigate">Previous</button>
+                        <button type="button" class="btn btn-secondary " data-bs-dismiss="modal">Close</button>
+                        <button type="button" data-value="1" class="btn btn-primary navigate">Next</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div id="pageNumber" style="margin-left: 100px; margin-top: 20px;">
+        <ul class="pagination">
+            <li class="page-item " value="-1">
+                <a class="page-link" href="#" tabindex="-1"  aria-disabled="true">Previous</a>
+            </li>
+
+            <li class="page-item" value="1">
+                <a class="page-link"  href="#">Next</a>
+            </li>
+        </ul>
+        </nav>
+    </div>
+    <div id="downloadBtn"  >
+
+    </div>
+
+<!-- JavaScript Bundle with Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
+<script src="./javascript/script.js"></script>
+</body>
+</html>
