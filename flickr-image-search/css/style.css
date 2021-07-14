@@ -1,0 +1,6 @@
+#pageNumber,#downloadBtn, #canvas{
+    display: none;
+}
+img.selected{
+    border: 5px solid green;
+}
