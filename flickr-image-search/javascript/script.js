@@ -8,7 +8,7 @@ let obj = (function () {
     }
 
     function getAPI(search, pageNumber) {
-        return `https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=${API key}&text=${search}&page=${pageNumber}&format=json&nojsoncallback=1`;
+        return `https://api.flickr.com/services/rest/?method=flickr.photos.search&api_key=6a2528b98ace6683f7c79797807d47b5&text=${search}&page=${pageNumber}&format=json&nojsoncallback=1`;
     }
 
     async function fetchData(url) {
@@ -18,7 +18,6 @@ let obj = (function () {
 
 
     function renderContent(flickr) {
-        //console.log(flickr.photos.photo);
         var myModal = new bootstrap.Modal(document.getElementById('imageModal'), {
             keyboard: false
         })
@@ -32,70 +31,69 @@ let obj = (function () {
                           </div>
                         </div>`;
         });
-
+        getEleId('pageNumber').style.display = "block";
         getEleId('render-content').innerHTML = searchedImages.join('');
 //Image button
         let imagePopover = getEleClass('imagePopover');
-        // let doubleClickFlag = false;
-        let click;
+        let clickTimeout = undefined;
+        let clickCount = 0;
         for (let i = 0; i < imagePopover.length; i++) {
+            let temp=i;
             imagePopover[i].addEventListener('click', function (e) {
-                click = window.setTimeout(function () {
-                    myModal.show();
-                    let modalBody = getEleId('modal-body');
-                    modalBody.innerHTML = `<img style="width: 100%;" src="https://live.staticflickr.com/${imagePopover[i].value}_b.jpg" title="Flickr Image" frameBorder="0" >`;
-                    //previous and next image button
-                    let navigateImage = getEleClass('navigate');
-                    for (let j = 0; j < navigateImage.length; j++) {
-                        navigateImage[j].addEventListener('click', function (e) {
-                            e.preventDefault();
-                            let change = parseInt(this.dataset.value);
-                            let newIndex = parseInt(imagePopover[i].dataset.index) + parseInt(change);
-                            //handle -ve index
-                            if (newIndex < 0) {
-                                alert("First Image");
-                            } else {
-                                modalBody.innerHTML = `<img style="width: 100%;" src="https://live.staticflickr.com/${imagePopover[newIndex].value}_b.jpg" title="Flickr Image" frameBorder="0" >`;
-                                //update index of the modal
-                                i = newIndex;
-                            }
+                clickCount++;
+                if (clickCount === 1) {
+                    clickTimeout = window.setTimeout(function () {
+                        myModal.show();
+                        console.log("single click");
+                        clickCount=0;
+                        let modalBody = getEleId('modal-body');
+                        modalBody.innerHTML = `<img style="width: 100%;" src="https://live.staticflickr.com/${imagePopover[i].value}_b.jpg" title="Flickr Image" frameBorder="0" >`;
+                        //previous and next image button
+                        let navigateImage = getEleClass('navigate');
+                        for (let j = 0; j < navigateImage.length; j++) {
+                            navigateImage[j].addEventListener('click', function (e) {
+                                e.preventDefault();
+                                let change = parseInt(this.dataset.value);
+                                let newIndex = parseInt(imagePopover[i].dataset.index) + parseInt(change);
+                                //handle -ve index
+                                if (newIndex < 0) {
+                                    alert("First Image");
+                                } else {
+                                    modalBody.innerHTML = `<img style="width: 100%;" src="https://live.staticflickr.com/${imagePopover[newIndex].value}_b.jpg" title="Flickr Image" frameBorder="0" >`;
+                                    //update index of the modal
+                                    i = newIndex;
+                                }
 
-                        })
-                    }
-                }, 300);
-
-
+                            })
+                        }
+                    }, 300);
+                }
+                //reset value of current image
+                i=temp;
             });
+
         }
         //double click to select image
-        let imageIndex = [];
         let doubleClick = getEleClass('selectImage');
+        let download = getEleId('downloadBtn');
+        let selected = getEleClass('selected');
         for (let i = 0; i < doubleClick.length; i++) {
             doubleClick[i].addEventListener('dblclick', function (e) {
+                clickCount++;
+                download.style.display = "block";
                 e.preventDefault();
-                console.log(doubleClick[i]);
-                doubleClick[i].style.backgroundColor = 'green';
-                window.clearTimeout(click);
-                // doubleClickFlag = true;
-                console.log(imageIndex);
-                if (!(imageIndex.includes(parseInt(doubleClick[i].dataset.index))))
-                    imageIndex.push(parseInt(doubleClick[i].dataset.index));
-                let downloadBtn = getEleId('downloadBtn');
-                console.log(downloadBtn);
-                downloadBtn.innerHTML = `<button type="button" class="download" style="margin-left: 100px; margin-top: 20px;">
-                                                   DOWNLOAD
-                                                </button>`
+                window.clearTimeout(clickTimeout);
+                e.target.classList.toggle("selected");
+                console.log(e.target.classList);
+                clickCount = 0;
             });
         }
 //download image
-        let download = getEleClass('download');
-        for (let i = 0; i < download.length; i++) {
-            download[i].addEventListener('click', (e) => {
-                e.preventDefault();
-                console.log(e);
-                console.log(imageIndex);
-            });
-        }
+        download.addEventListener('click', (e) => {
+            e.preventDefault();
+            let canvas = getEleId('canvas');
+
+        });
     }
 
 //calling function
@@ -132,3 +130,4 @@ let obj = (function () {
 window.addEventListener('load', function () {
     obj.init();
 })
+
